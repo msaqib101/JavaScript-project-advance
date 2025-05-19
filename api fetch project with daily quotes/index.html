@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍳 Culinary Explorer | Recipe Finder</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #ff6b6b;
+      --primary-light: #ff8787;
+      --secondary: #4ecdc4;
+      --dark: #343a40;
+      --light: #f8f9fa;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+    }
+    
+    body {
+      background-color: #fff9f9;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    
+    .navbar {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      color: white !important;
+      font-size: 1.5rem;
+    }
+    
+    .hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                  url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 5rem 0;
+      margin-bottom: 3rem;
+      border-radius: 0 0 20px 20px;
+    }
+    
+    .search-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .search-input {
+      border-radius: 50px !important;
+      padding: 1rem 1.5rem;
+      border: none;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .search-btn {
+      border-radius: 50px !important;
+      padding: 0 2rem;
+      background-color: var(--primary);
+      border: none;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .search-btn:hover {
+      background-color: var(--primary-light);
+      transform: translateY(-2px);
+    }
+    
+    .card {
+      border: none;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .meal-img {
+      height: 220px;
+      width: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    
+    .card:hover .meal-img {
+      transform: scale(1.03);
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+    }
+    
+    .card-title {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 0.75rem;
+    }
+    
+    .category-badge {
+      background-color: var(--secondary);
+      color: white;
+      padding: 0.35em 0.65em;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    .instructions {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      color: var(--gray);
+      margin-bottom: 1rem;
+    }
+    
+    details {
+      margin: 1rem 0;
+    }
+    
+    summary {
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+      outline: none;
+    }
+    
+    .ingredients-list {
+      padding-left: 1.25rem;
+      margin-top: 0.5rem;
+    }
+    
+    .ingredients-list li {
+      margin-bottom: 0.25rem;
+    }
+    
+    .watch-btn {
+      border-radius: 50px;
+      padding: 0.5rem 1.25rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      width: 100%;
+      margin-top: 1rem;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      background: transparent;
+    }
+    
+    .watch-btn:hover {
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .no-results {
+      text-align: center;
+      padding: 3rem;
+      color: var(--gray);
+    }
+    
+    .loading-spinner {
+      display: none;
+      width: 3rem;
+      height: 3rem;
+      margin: 2rem auto;
+      border: 0.25em solid rgba(0, 0, 0, 0.1);
+      border-left-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    footer {
+      background-color: var(--dark);
+      color: white;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+    
+    @media (max-width: 768px) {
+      .hero {
+        padding: 3rem 0;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .search-input, .search-btn {
+        padding: 0.75rem 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-utensils me-2"></i>Culinary Explorer
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-heart me-1"></i> Favorites</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-info-circle me-1"></i> About</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container text-center">
+      <h1 class="display-4 fw-bold mb-4">Discover Delicious Recipes</h1>
+      <p class="lead mb-5">Find your next culinary masterpiece from thousands of recipes</p>
+      
+      <div class="search-container">
+        <div class="input-group">
+          <input type="text" id="searchInput" class="form-control search-input" placeholder="Search for recipes like 'pasta', 'chicken', 'dessert'...">
+          <button class="btn search-btn" onclick="searchMeal()">
+            <i class="fas fa-search me-2"></i>Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner"></div>
+    
+    <!-- Results Grid -->
+    <div id="mealResults" class="row g-4"></div>
+    
+    <!-- No Results Message -->
+    <div id="noResults" class="no-results" style="display: none;">
+      <i class="fas fa-utensils fa-3x mb-3" style="color: var(--light-gray);"></i>
+      <h4>No recipes found</h4>
+      <p class="mb-0">Try searching for something else</p>
+    </div>
+    
+    <!-- Error Message -->
+    <div id="errorMessage" class="no-results" style="display: none;">
+      <i class="fas fa-exclamation-triangle fa-3x mb-3" style="color: var(--primary);"></i>
+      <h4>Something went wrong</h4>
+      <p class="mb-0">Please try again later</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container text-center">
+      <h5>Culinary Explorer</h5>
+      <p class="mb-3">Discover the world's best recipes</p>
+      <div class="social-icons mb-3">
+        <a href="#" class="text-white mx-2"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="text-white mx-2"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="text-white mx-2"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="text-white mx-2"><i class="fab fa-pinterest"></i></a>
+      </div>
+      <p class="mb-0 small">&copy; 2023 Culinary Explorer. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    async function searchMeal() {
+      const query = document.getElementById('searchInput').value.trim();
+      const mealResults = document.getElementById('mealResults');
+      const noResults = document.getElementById('noResults');
+      const errorMessage = document.getElementById('errorMessage');
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      
+      // Hide all messages and clear results
+      mealResults.innerHTML = '';
+      noResults.style.display = 'none';
+      errorMessage.style.display = 'none';
+      
+      if (!query) {
+        noResults.querySelector('h4').textContent = 'Please enter a recipe name';
+        noResults.querySelector('p').textContent = 'Try searching for something like "chicken" or "pasta"';
+        noResults.style.display = 'block';
+        return;
+      }
+      
+      // Show loading spinner
+      loadingSpinner.style.display = 'block';
+      
+      try {
+        const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`);
+        const data = await res.json();
+        const meals = data.meals;
+        
+        // Hide loading spinner
+        loadingSpinner.style.display = 'none';
+        
+        if (!meals) {
+          noResults.querySelector('h4').textContent = 'No recipes found';
+          noResults.querySelector('p').textContent = 'Try a different search term';
+          noResults.style.display = 'block';
+          return;
+        }
+        
+        meals.forEach(meal => {
+          const ingredients = [];
+          for (let i = 1; i <= 20; i++) {
+            const ing = meal[`strIngredient${i}`];
+            const measure = meal[`strMeasure${i}`];
+            if (ing && ing.trim() !== '') {
+              ingredients.push(`${measure ? measure + ' ' : ''}${ing}`);
+            }
+          }
+          
+          // Format instructions - remove line breaks and extra spaces
+          const instructions = meal.strInstructions
+            .replace(/\r\n/g, ' ')
+            .replace(/\n/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+          
+          const card = `
+            <div class="col-md-6 col-lg-4">
+              <div class="card">
+                <img src="${meal.strMealThumb}" class="meal-img" alt="${meal.strMeal}">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title">${meal.strMeal}</h5>
+                    <span class="category-badge">${meal.strCategory}</span>
+                  </div>
+                  <p class="instructions">${instructions}</p>
+                  
+                  <details>
+                    <summary><i class="fas fa-list-ul me-2"></i>Ingredients (${ingredients.length})</summary>
+                    <ul class="ingredients-list">${ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
+                  </details>
+                  
+                  ${meal.strYoutube ? `
+                    <a href="${meal.strYoutube}" target="_blank" class="btn watch-btn">
+                      <i class="fab fa-youtube me-2"></i>Watch Video
+                    </a>
+                  ` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+          mealResults.innerHTML += card;
+        });
+        
+      } catch (err) {
+        console.error(err);
+        loadingSpinner.style.display = 'none';
+        errorMessage.style.display = 'block';
+      }
+    }
+    
+    // Allow searching by pressing Enter key
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        searchMeal();
+      }
+    });
+  </script>
+</body>
+</html>

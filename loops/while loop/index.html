@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modern Multiplication Table</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Multiplication Table of <span id="table_count">?</span></h1>
+        <form onsubmit="tableLoop(); return false">
+            <input type="number" 
+                   id="table_number" 
+                   placeholder="Enter any number (1-100)"
+                   min="1"
+                   max="100">
+            <button type="submit">Generate Table 🌟</button>
+        </form>
+        <div id="full_table"></div>
+    </div>
+
+   <script src="./logic.js"></script>
+</body>
+</html>

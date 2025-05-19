@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./style.css">
+    <title>Grade Calculator</title>
+ 
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Grade Calculator</h1>
+        <form onsubmit="grade_cal(); return false">
+            <div class="input-group">
+                <label for="math">Math:</label>
+                <input type="number" id="sub1" name="math" placeholder="Enter marks (0-100)" min="0" max="100">
+            </div>
+
+            <div class="input-group">
+                <label for="Isl">Islamiyat:</label>
+                <input type="number" id="sub2" name="Isl" placeholder="Enter marks (0-100)" min="0" max="100">
+            </div>
+
+            <div class="input-group">
+                <label for="Urdu">Urdu:</label>
+                <input type="number" id="sub3" name="Urdu" placeholder="Enter marks (0-100)" min="0" max="100">
+            </div>
+
+            <div class="input-group">
+                <label for="English">English:</label>
+                <input type="number" id="sub4" name="English" placeholder="Enter marks (0-100)" min="0" max="100">
+            </div>
+
+            <button type="submit">Calculate Results 📝</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+   <script src="./logic.js"></script>
+</body>
+</html>
